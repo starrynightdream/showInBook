@@ -2,7 +2,7 @@ const app = {};
 
 /**
  * 初始化渲染器
- * @returns {String} 是否出现错误
+ * @returns {String} 是否出现错误，错误会由app调用Err表示
  */
 app.initThree = function (){
 
@@ -22,6 +22,10 @@ app.initThree = function (){
     this.saveDiv.appendChild(render.domElement);
 }
 
+/**
+ * 初始化摄像机
+ * @returns {String} 是否出现错误，错误会由app调用Err表示
+ */
 app.initCamera = function (){
 
     const camera = new THREE.PerspectiveCamera(60,
@@ -32,10 +36,18 @@ app.initCamera = function (){
     this.camera = camera;
 }
 
+/**
+ * 初始化场景
+ * @returns {String} 是否出现错误，错误会由app调用Err表示
+ */
 app.initSence = function (){
     this.scene = new THREE.Scene();
 }
 
+/**
+ * 初始化灯光
+ * @returns {String} 是否出现错误，错误会由app调用Err表示
+ */
 app.initLight = function (){
 
     const dLight = new THREE.DirectionalLight(0xffffff, 1.0, 0);
@@ -49,10 +61,18 @@ app.initLight = function (){
     this.aLight = aLight;
 }
 
+/**
+ * 初始化物件
+ * @returns {String} 是否出现错误，错误会由app调用Err表示
+ */
 app.initObject = function (){
     this.objs = {};
 }
 
+/**
+ * 初始化Three
+ * @returns {String} 是否出现错误，错误会由app调用Err表示
+ */
 app.init = function() {
 
     let info = this.initThree();
@@ -84,6 +104,38 @@ app.init = function() {
         Err.error(info);
         return;
     }
+
+    this.renderCall = [];
 }
 
-app.init();
+/**
+ * 为场景添加一个动画
+ * @param {object} param0 func代表需要实时渲染的动画
+ */
+app.addAni = function({name = "NONAME", func, ...selfArea}) {
+
+    app.renderCall.push({
+        name,
+        func,
+        isEnd :false,
+        selfArea
+    });
+}
+
+/**
+ * 结束一个
+ * TODO： 这里应该实现在线性时间内结束动画。但这里因为时间关系并没有决定去实现
+ * @param {string} name 提供一个函数名字结束动画
+ */
+app.delAni = function(name) {
+
+    for (let o of this.renderCall){
+        
+        if (o.name === name){
+            o.isEnd = true;
+            return;
+        }
+    }
+}
+
+app.init()
