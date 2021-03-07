@@ -1,0 +1,11 @@
+.mainCanve {
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    height: 97vh;
+    /* background-color: gray; */
+}
+
+body{
+    background-color: gray;
+}
