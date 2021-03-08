@@ -4,15 +4,12 @@
         <title>冒险的书</title>
         <meta charset="utf-8">
         <script src="/js/build/three.min.js"></script>
+        <script src="/js/showBook/mainThree.js"></script>
+        <script src="/js/book.js"></script>
         <link type="text/css" href="/css/book.css" rel="stylesheet"/>
     </head>
-    <body>
-       <div id="bookShow" class="mainCanve">
-
+    <body onload='app.init(); createBook()'>
+       <div id="bookShow" class="mainCanve" >
        </div> 
     </body>
-    <script src="/js/showBook/Err.js"></script>
-    <script src="/js/showBook/mainThree.js"></script>
-    <script src="/js/showBook/book.js"></script>
-    <script src="/js/showBook/renderF.js"></script>
 </html>
