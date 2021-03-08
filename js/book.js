@@ -4,17 +4,61 @@ createBookItem = ()=>{
         Err.error('未初始化完成');
     }
 
-    const bookGeo = new THREE.BoxGeometry(8, 0.5, 6);
+    const bookGeo = new THREE.BoxGeometry(4, 0.5, 6);
     const bookMat = new THREE.MeshPhongMaterial({
         color: 0xffffff,
         // transparent : true,
     });
-    const book = new THREE.Mesh(bookGeo, bookMat);
+    const bookL = new THREE.Mesh(bookGeo, bookMat);
+    const bookR = new THREE.Mesh(bookGeo, bookMat);
+    const book = new THREE.Group();
+    bookL.position.x -= 2;
+    bookR.position.x += 2;
+    book.add(bookL);
+    book.add(bookR);
     book.position.set(0, -4, -4);
 
     app.addObj(book, 'book');
 
     // TODO: 在这里实现书本的动画与监听。
+
+    document.onkeydown = (e) =>{
+        
+        if (e.key === 'a'){
+
+            app.delAni('bookToRight');
+            app.addAni({
+                name : 'bookToLeft',
+                func : (dt, selfArea) =>{
+                    
+                    if (book.position.x > -3){
+                        book.position.x -= 0.001 *dt;
+                    }else{
+                        book.position.x = -3;
+                        return true;
+                    }
+                }
+            });
+ 
+        }
+
+        if (e.key === 'd'){
+
+            app.delAni('bookToLeft');
+            app.addAni({
+                name : 'bookToRight',
+                func : (dt) =>{
+
+                    if (book.position.x < 3){
+                        book.position.x += 0.001 *dt;
+                    }else{
+                        book.position.x = 3;
+                        return true;
+                    }
+                }
+            });
+        }
+    }
 }
 
 createSpriteEff = () =>{
@@ -52,24 +96,10 @@ createSpriteEff = () =>{
             sprite.material.rotation += Math.PI/1024 *dt;
         }
     });
-
-    document.onkeydown = (eve) =>{
-
-        if (eve.key === 'd'){
-            app.scene.remove(sprite);
-        }else if (eve.key === 'a'){
-            let posX = Math.random() *6 -3;
-            let posY = Math.random() *6 -3;
-            sprite.position.set(posX, posY);
-            app.scene.add(sprite);
-        }
-    }
 }
 
 createBook = () =>{
 
     createBookItem();
     createSpriteEff();
-
-    console.log(app.objs.starSprite)
 }

@@ -148,6 +148,7 @@ app.init = function() {
  */
 app.addAni = function({name = "NONAME", func, ...selfArea}) {
 
+    app.delAni(name)
     app.renderCall.push({
         name,
         func,
@@ -179,8 +180,16 @@ app.delAni = function(name) {
  * @returns {boolean} 是否存在该物件
  */
 app.hasObj = function(name){
-
     return this.objs[name] !== undefined;
+}
+
+/**
+ * 
+ * @param {string} name 物件的名称
+ * @returns {Three.Object} 该物体
+ */
+app.getObj = function (name){
+    return this.objs[name];
 }
 
 /**
@@ -221,7 +230,7 @@ app.showObj = function (name){
 /**
  * 渲染部分
  */
-app.renderF = function(){
+app.renderF = function(time){
 
     let T1 = new Date();
     let dt = T1 - app.T0; 
@@ -237,6 +246,9 @@ app.renderF = function(){
         }
     }
 
+    if(TWEEN){
+        TWEEN.update(time);
+    }
     app.render.render(app.scene, app.camera);
     requestAnimationFrame(app.renderF);
 }
