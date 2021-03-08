@@ -4,6 +4,7 @@
 
 目前依赖：
 - three.js
+- tween.js
 
 目标特性：
 
