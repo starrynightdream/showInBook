@@ -56,9 +56,9 @@ app.initCamera = function (){
 
     const camera = new THREE.PerspectiveCamera(60,
          this.width / this.height, 1, 10000);
-    camera.position.z = 10;
-    camera.position.y = 3;
-    camera.lookAt(0, 0, 0);
+    camera.position.z = 12;
+    camera.position.y = 7;
+    camera.lookAt(0, 5, 0);
     this.camera = camera;
 }
 
